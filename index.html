@@ -14,7 +14,14 @@
   <noscript><link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
 
-  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+  <script>
+    if (window.innerWidth > 860) {
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'https://unpkg.com/@splinetool/viewer/build/spline-viewer.js';
+      document.head.appendChild(s);
+    }
+  </script>
 
   <style>
     /* ─── tokens ──────────────────────────────────────────────── */
@@ -239,9 +246,10 @@
     }
 
     .hero-ctas {
-      display: flex; gap: 1rem; flex-wrap: wrap;
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
       opacity: 0;
       animation: slideUp 1.2s var(--ease) 0.95s forwards;
+      margin-top: 0.25rem;
     }
 
     @keyframes slideUp {
@@ -277,9 +285,9 @@
         position: absolute;
         bottom: 0; left: 0; right: 0;
         flex: none;
-        padding: 0 1.75rem 3.5rem;
+        padding: 0 1.5rem 2.75rem;
         justify-content: flex-end;
-        background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+        background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 55%, transparent 100%);
         z-index: 10;
       }
       /* disable heavy canvas & aurora animation on mobile */
@@ -302,7 +310,12 @@
         to   { opacity: 1; }
       }
       .hero-h1 { font-size: clamp(2rem, 9vw, 3rem); }
-      .hero-sub { max-width: 100%; }
+      .hero-sub { max-width: 100%; font-size: 0.875rem; }
+      .hero-ctas .btn-filled,
+      .hero-ctas .btn-ring {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.7rem;
+      }
     }
 
     /* respect reduced-motion system preference */
@@ -877,12 +890,16 @@
       <span class="hero-eyebrow-badge">Web Design · Conversion-First</span>
       <h1 class="hero-h1">Let the world<br>see <em>your Business.</em></h1>
       <p class="hero-sub">Premium websites built in 1–2 weeks.<br>No templates — pure results.</p>
+      <div class="hero-ctas">
+        <a href="#cine-footer-curtain" class="btn-filled">Let's Talk</a>
+        <a href="#work" class="btn-ring">See Work</a>
+      </div>
     </div>
 
     <!-- Right — Spline 3D (desktop) / static image (mobile) -->
     <div class="hero-right">
       <spline-viewer
-        url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+        id="spline-scene"
         loading-anim-type="none"
       ></spline-viewer>
       <picture>
@@ -1088,21 +1105,32 @@
 
 
 <!-- ─── SCRIPTS ───────────────────────────────────────────────── -->
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script defer src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
 <script>
 (function () {
 
-  /* ── Lenis ───────────────────────────── */
-  const lenis = new Lenis({ lerp: 0.082, smoothWheel: true });
-  gsap.registerPlugin(ScrollTrigger);
-  lenis.on('scroll', ScrollTrigger.update);
-  (function tick(t) { lenis.raf(t); requestAnimationFrame(tick); })(0);
+  const isMobile = window.innerWidth <= 860;
 
-  /* ── Nav scroll state ────────────────── */
+  /* ── Spline: set URL only on desktop ─── */
+  if (!isMobile) {
+    const spline = document.getElementById('spline-scene');
+    if (spline) spline.setAttribute('url', 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode');
+  }
+
+  /* ── Lenis (desktop only) ────────────── */
+  gsap.registerPlugin(ScrollTrigger);
   const nav = document.getElementById('nav');
-  lenis.on('scroll', ({ scroll }) => nav.classList.toggle('scrolled', scroll > 60));
+  let lenis = null;
+  if (!isMobile) {
+    lenis = new Lenis({ lerp: 0.082, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    (function tick(t) { lenis.raf(t); requestAnimationFrame(tick); })(0);
+    lenis.on('scroll', ({ scroll }) => nav.classList.toggle('scrolled', scroll > 60));
+  } else {
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
+  }
 
   /* ── WebGL Mesh Gradient (paper-design MeshGradient style) ── */
   (function () {
@@ -1311,7 +1339,11 @@
 
     /* back to top */
     document.getElementById('cine-up').addEventListener('click', function () {
-      lenis.scrollTo(0, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
 
     /* up-arrow hover lift */
