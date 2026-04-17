@@ -106,121 +106,209 @@
       background: #000;
     }
 
-    /* Animated canvas mesh — deepest layer */
     #mesh {
       position: absolute; inset: 0;
       width: 100%; height: 100%; z-index: 0;
     }
 
-    /* Spline robot — masked so its internal scene edges dissolve into the canvas bg */
-    spline-viewer {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; z-index: 1;
-      -webkit-mask-image: radial-gradient(ellipse 52% 62% at 50% 57%, black 28%, transparent 66%);
-      mask-image:         radial-gradient(ellipse 52% 62% at 50% 57%, black 28%, transparent 66%);
-    }
-
-    /* Animated aurora gradient — colour mood layer */
+    /* Aurora mood — behind the card */
     #hero-atmo {
-      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
       animation: heroAurora 9s ease-in-out infinite alternate;
     }
-
     @keyframes heroAurora {
       0% {
         background:
-          radial-gradient(ellipse 72% 62% at 14% 58%, rgba(255,55,175,0.24) 0%, transparent 62%),
-          radial-gradient(ellipse 68% 62% at 86% 42%, rgba(5,75,255,0.20)   0%, transparent 62%),
-          radial-gradient(ellipse 48% 38% at 55% 18%, rgba(140,50,255,0.14) 0%, transparent 58%),
-          radial-gradient(ellipse 55% 45% at 50% 108%, rgba(0,0,0,0.72)    0%, transparent 52%);
+          radial-gradient(ellipse 55% 70% at 15% 55%, rgba(255,55,175,0.18) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 60% at 88% 45%, rgba(5,75,255,0.15)   0%, transparent 60%),
+          radial-gradient(ellipse 40% 35% at 50% 12%, rgba(140,50,255,0.10) 0%, transparent 55%);
       }
-      30% {
+      50% {
         background:
-          radial-gradient(ellipse 78% 55% at 28% 44%, rgba(255,43,150,0.28) 0%, transparent 60%),
-          radial-gradient(ellipse 65% 68% at 72% 56%, rgba(20,65,255,0.22)  0%, transparent 62%),
-          radial-gradient(ellipse 50% 42% at 45% 12%, rgba(180,70,255,0.18) 0%, transparent 55%),
-          radial-gradient(ellipse 55% 45% at 50% 108%, rgba(0,0,0,0.72)    0%, transparent 52%);
-      }
-      65% {
-        background:
-          radial-gradient(ellipse 65% 72% at 10% 68%, rgba(255,80,200,0.22) 0%, transparent 62%),
-          radial-gradient(ellipse 72% 60% at 92% 32%, rgba(5,100,255,0.19)  0%, transparent 60%),
-          radial-gradient(ellipse 55% 40% at 68% 22%, rgba(100,35,220,0.20) 0%, transparent 55%),
-          radial-gradient(ellipse 55% 45% at 50% 108%, rgba(0,0,0,0.72)    0%, transparent 52%);
+          radial-gradient(ellipse 60% 65% at 22% 48%, rgba(255,43,150,0.20) 0%, transparent 58%),
+          radial-gradient(ellipse 50% 70% at 78% 52%, rgba(20,65,255,0.16)  0%, transparent 60%),
+          radial-gradient(ellipse 42% 38% at 48% 10%, rgba(180,70,255,0.12) 0%, transparent 52%);
       }
       100% {
         background:
-          radial-gradient(ellipse 82% 66% at 22% 50%, rgba(255,50,168,0.26) 0%, transparent 58%),
-          radial-gradient(ellipse 76% 56% at 78% 50%, rgba(10,82,255,0.22)  0%, transparent 58%),
-          radial-gradient(ellipse 44% 46% at 58% 10%, rgba(160,55,230,0.22) 0%, transparent 52%),
-          radial-gradient(ellipse 55% 45% at 50% 108%, rgba(0,0,0,0.72)    0%, transparent 52%);
+          radial-gradient(ellipse 65% 60% at 18% 50%, rgba(255,50,168,0.20) 0%, transparent 56%),
+          radial-gradient(ellipse 55% 55% at 82% 48%, rgba(10,82,255,0.16)  0%, transparent 56%),
+          radial-gradient(ellipse 38% 42% at 52% 8%,  rgba(160,55,230,0.14) 0%, transparent 50%);
       }
     }
 
-    /* Covers "Built with Spline" badge bottom-right */
+    /* Full-bleed layout container */
+    .hero-card {
+      position: absolute; inset: 0; z-index: 5;
+      display: flex;
+    }
+
+    /* Aceternity-style spotlight beam — inside the card */
+    #hero-spotlight {
+      position: absolute; z-index: 1; pointer-events: none;
+      height: 169%; width: 138%;
+      top: -20%; left: 0;
+      opacity: 0;
+      animation: spotlightReveal 2.2s ease 0.6s forwards;
+    }
+    @keyframes spotlightReveal {
+      from { opacity: 0; transform: translateY(-8%) skewX(12deg); }
+      to   { opacity: 1; transform: translateY(0)   skewX(12deg); }
+    }
+
+    /* Left — text (1/3) */
+    .hero-left {
+      flex: 0 0 33.333%;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 2rem 0 3.5rem;
+      position: relative; z-index: 10;
+    }
+
+    /* Right — Spline (2/3) */
+    .hero-right {
+      flex: 1;
+      position: relative; overflow: hidden;
+    }
+
+    /* fade left edge of spline seamlessly into black */
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      background:
+        linear-gradient(to right, #000 0%, rgba(0,0,0,0.6) 20%, transparent 50%),
+        linear-gradient(to bottom, #000 0%, transparent 15%, transparent 85%, #000 100%);
+    }
+
+    spline-viewer {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; z-index: 1;
+    }
+
     #spline-cover {
       position: absolute; bottom: 0; right: 0;
-      width: 220px; height: 56px;
+      width: 280px; height: 60px;
       background: #000; z-index: 10;
     }
 
-    /* Hero title — compact badge at top, leaves robot visible */
-    .hero-title-block {
-      position: absolute; top: 0; left: 0; right: 0;
-      z-index: 5; padding: 6.5rem 3.5rem 0;
-      pointer-events: none;
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center;
-    }
-
-    /* frosted pill wrap */
-    .hero-pill {
-      display: inline-flex; flex-direction: column; align-items: center;
-      padding: 1.5rem 2.75rem 1.75rem;
-      background: rgba(0,0,0,0.28);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 2rem;
-      opacity: 0;
-      animation: slideUp 1.2s var(--ease) 0.3s forwards;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.62rem; font-weight: 700;
+    /* Text content */
+    .hero-eyebrow-badge {
+      display: inline-flex; align-self: flex-start;
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      font-size: 0.6rem; font-weight: 700;
       letter-spacing: 0.22em; text-transform: uppercase;
-      color: rgba(255,255,255,0.38);
-      margin-bottom: 0.6rem;
+      color: rgba(255,255,255,0.42);
+      background: rgba(255,255,255,0.04);
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      animation: slideUp 1s var(--ease) 0.5s forwards;
     }
 
     .hero-h1 {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(1.35rem, 2.4vw, 2.2rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.025em;
-      text-transform: uppercase;
+      font-size: clamp(2.6rem, 4.2vw, 5rem);
+      font-weight: 800; line-height: 1.0;
+      letter-spacing: -0.04em; text-transform: uppercase;
       color: #fff;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: slideUp 1.2s var(--ease) 0.65s forwards;
     }
 
     .hero-h1 em {
       font-family: 'Instrument Serif', serif;
-      font-style: italic;
-      font-weight: 400;
-      text-transform: none;
-      letter-spacing: -0.015em;
+      font-style: italic; font-weight: 400;
+      text-transform: none; letter-spacing: -0.02em;
       background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      display: inline;
-      font-size: 1.05em;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; display: inline; font-size: 1.05em;
+    }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif; font-weight: 300;
+      font-size: 0.95rem; line-height: 1.78;
+      color: rgba(255,255,255,0.4);
+      max-width: 340px; margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: slideUp 1.2s var(--ease) 0.8s forwards;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: slideUp 1.2s var(--ease) 0.95s forwards;
     }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* mobile fallback image — hidden on desktop */
+    .hero-mobile-img {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      /* hero layout: robot full-bleed bg, text pinned to bottom */
+      .hero-card {
+        flex-direction: column;
+      }
+      .hero-right {
+        position: absolute; inset: 0;
+      }
+      /* hide heavy Spline on mobile, show static image */
+      spline-viewer {
+        display: none;
+      }
+      .hero-mobile-img {
+        display: block;
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover; object-position: center top;
+      }
+      /* text overlays bottom */
+      .hero-left {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        flex: none;
+        padding: 0 1.75rem 3.5rem;
+        justify-content: flex-end;
+        background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+        z-index: 10;
+      }
+      /* disable heavy canvas & aurora animation on mobile */
+      #mesh { display: none; }
+      #hero-atmo { animation: none; background: none; }
+      /* simplify spotlight — just fade, no skew */
+      #hero-spotlight {
+        animation: none;
+        opacity: 0.12;
+        transform: none;
+      }
+      /* simplify text animations to plain fade */
+      .hero-eyebrow-badge,
+      .hero-h1,
+      .hero-sub {
+        animation: simpleFade 0.8s ease forwards;
+      }
+      @keyframes simpleFade {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      .hero-h1 { font-size: clamp(2rem, 9vw, 3rem); }
+      .hero-sub { max-width: 100%; }
+    }
+
+    /* respect reduced-motion system preference */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-eyebrow-badge,
+      .hero-h1,
+      .hero-sub,
+      .hero-ctas { animation: none; opacity: 1; transform: none; }
+      #hero-spotlight { animation: none; opacity: 0.15; }
+      #hero-atmo { animation: none; }
     }
 
     /* ─── section primitives ──────────────────────────────────── */
@@ -499,45 +587,6 @@
       .faq-a-entry { position: relative; inset: auto; }
     }
 
-    /* ─── contact ─────────────────────────────────────────────── */
-    #contact { background: #000; border-top: 1px solid var(--border); }
-
-    .contact-inner {
-      max-width: 860px; margin: 0 auto;
-      padding: 9rem 3rem 6rem;
-      text-align: center;
-      display: flex; flex-direction: column; align-items: center;
-    }
-
-    .contact-mega {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3.5rem, 9.5vw, 9.5rem);
-      font-weight: 800; line-height: 0.88;
-      letter-spacing: -0.045em; text-transform: uppercase;
-      text-align: center;
-    }
-
-    .contact-mega .italic-row {
-      font-family: 'Instrument Serif', serif;
-      font-style: italic; font-weight: 400;
-      font-size: clamp(3rem, 8.5vw, 8.5rem);
-      text-transform: none; letter-spacing: -0.025em;
-      display: block;
-    }
-
-    .contact-sub {
-      font-size: 0.9375rem; line-height: 1.75;
-      color: rgba(255,255,255,0.38);
-      max-width: 420px; margin-top: 2.25rem;
-      text-align: center;
-    }
-
-    .contact-ctas {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      margin-top: 3rem;
-      justify-content: center;
-    }
-
     .btn-filled {
       display: inline-flex; align-items: center; gap: 0.625rem;
       padding: 1rem 2.25rem; background: #fff; color: #000;
@@ -570,14 +619,6 @@
       transform: translateY(-2px);
     }
     .btn-ring:active { transform: translateY(0); }
-
-    .footer-bar {
-      margin-top: 6rem; padding-top: 1.75rem;
-      width: 100%; max-width: 860px;
-      border-top: 1px solid var(--border);
-      display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap; gap: 1rem;
-    }
 
     /* ─── cinematic footer ───────────────────────────────────── */
     .cine-footer-curtain {
@@ -780,7 +821,6 @@
       .faq-wrap { padding: 5rem 1.5rem 6rem; }
       .faq-split { grid-template-columns: 1fr; gap: 2.5rem; }
       .faq-q-list { position: relative; top: auto; }
-      .contact-inner { padding: 6rem 1.5rem 4rem; }
       .footer-bar { flex-direction: column; align-items: center; text-align: center; }
     }
   </style>
@@ -794,7 +834,7 @@
     <a href="#work"    class="nav-link">Work</a>
     <a href="#about"   class="nav-link">About</a>
     <a href="#faq"     class="nav-link">FAQ</a>
-    <a href="#contact" class="nav-cta">Let's Talk</a>
+    <a href="#cine-footer-curtain" class="nav-cta">Let's Talk</a>
   </div>
 </nav>
 
@@ -802,27 +842,49 @@
 <!-- ─── HERO ─────────────────────────────────────────────────── -->
 <section id="hero">
 
-  <!-- 1 — Animated mesh canvas (deepest bg) -->
+  <!-- WebGL mesh canvas (deepest bg) -->
   <canvas id="mesh"></canvas>
 
-  <!-- 2 — Spline 3D robot -->
-  <spline-viewer
-    url="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode"
-    loading-anim-type="none"
-  ></spline-viewer>
-
-  <!-- 3 — Atmospheric gradient overlay for background mood -->
+  <!-- Aurora mood overlay -->
   <div id="hero-atmo"></div>
 
-  <!-- 4 — Cover "Built with Spline" badge -->
-  <div id="spline-cover"></div>
+  <!-- Card -->
+  <div class="hero-card">
 
-  <!-- 5 — Title — compact pill above the robot -->
-  <div class="hero-title-block">
-    <div class="hero-pill">
-      <span class="hero-eyebrow">Web Design · Conversion-First</span>
-      <h1 class="hero-h1">Let the world see <em>your Business.</em></h1>
+    <!-- Aceternity-style spotlight beam -->
+    <svg id="hero-spotlight" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none">
+      <g filter="url(#sf)">
+        <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
+          transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
+          fill="white" fill-opacity="0.21"/>
+      </g>
+      <defs>
+        <filter id="sf" x="0.86" y="0.84" width="3785.16" height="2840.26"
+          filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+          <feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Left — text -->
+    <div class="hero-left">
+      <span class="hero-eyebrow-badge">Web Design · Conversion-First</span>
+      <h1 class="hero-h1">Let the world<br>see <em>your Business.</em></h1>
+      <p class="hero-sub">Premium websites built in 1–2 weeks.<br>No templates — pure results.</p>
     </div>
+
+    <!-- Right — Spline 3D (desktop) / static image (mobile) -->
+    <div class="hero-right">
+      <spline-viewer
+        url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+        loading-anim-type="none"
+      ></spline-viewer>
+      <img class="hero-mobile-img" src="robot.png" alt="" aria-hidden="true" />
+      <div id="spline-cover"></div>
+    </div>
+
   </div>
 
 </section>
@@ -839,9 +901,10 @@
         <span class="display-italic grad-text">Speaks</span>
       </h2>
     </div>
-    <a href="#contact" class="sr d2" style="font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.3rem;transition:color .3s,border-color .3s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.6)'" onmouseout="this.style.color='var(--dim)';this.style.borderColor='rgba(255,255,255,.18)'">
+    <a href="#cine-footer-curtain" class="sr d2" style="font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.3rem;transition:color .3s,border-color .3s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.6)'" onmouseout="this.style.color='var(--dim)';this.style.borderColor='rgba(255,255,255,.18)'">
       Start a project →
     </a>
+
   </div>
 
   <div class="gallery-grid">
@@ -874,7 +937,7 @@
   </div>
 
   <div class="gallery-footer sr">
-    <a href="#contact" class="btn-filled">Start Your Project</a>
+    <a href="#cine-footer-curtain" class="btn-filled">Start Your Project</a>
   </div>
 
 </section>
@@ -940,37 +1003,6 @@
     <div class="faq-split">
       <div class="faq-q-list" id="faq-q-list"></div>
       <div class="faq-a-panel" id="faq-a-panel"></div>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ─── CONTACT ───────────────────────────────────────────────── -->
-<section id="contact">
-  <div class="contact-inner">
-
-    <span class="eyebrow sr">Get In Touch</span>
-
-    <h2 class="contact-mega sr d1" style="margin-top:2rem;">
-      Ready to<br>
-      <span class="italic-row grad-text">elevate your</span>
-      presence?
-    </h2>
-
-    <p class="contact-sub sr d2">
-      Whether you have a project in mind or just want to explore possibilities — let's have a conversation.
-    </p>
-
-    <div class="contact-ctas sr d3">
-      <a href="tel:017676611642" class="btn-filled">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 01.21 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.29 6.29l1.28-1.28a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Call Me
-      </a>
-      <a href="mailto:contact@adrianswalk.com" class="btn-ring">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Email Me
-      </a>
     </div>
 
   </div>
@@ -1066,6 +1098,7 @@
 
   /* ── WebGL Mesh Gradient (paper-design MeshGradient style) ── */
   (function () {
+    if (window.innerWidth <= 860) return;
     const canvas = document.getElementById('mesh');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) return;
