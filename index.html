@@ -579,6 +579,182 @@
       align-items: center; flex-wrap: wrap; gap: 1rem;
     }
 
+    /* ─── cinematic footer ───────────────────────────────────── */
+    .cine-footer-curtain {
+      position: relative;
+      height: 100vh;
+      clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
+    }
+
+    .cine-footer {
+      position: fixed;
+      bottom: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: #000;
+      display: flex; flex-direction: column; justify-content: space-between;
+      overflow: hidden;
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* aurora glow */
+    .cine-footer__aurora {
+      position: absolute; left: 50%; top: 50%;
+      width: 80vw; height: 60vh;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%,
+        rgba(255,67,180,0.13) 0%,
+        rgba(120,75,160,0.12) 40%,
+        transparent 70%);
+      filter: blur(60px);
+      animation: cineAurora 8s ease-in-out infinite alternate;
+      pointer-events: none; z-index: 0;
+    }
+    @keyframes cineAurora {
+      0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.6; }
+      100% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+    }
+
+    /* grid bg */
+    .cine-footer__grid {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-size: 60px 60px;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+    }
+
+    /* giant bg text */
+    .cine-footer__bg-text {
+      position: absolute;
+      bottom: -4vh; left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 26vw; line-height: 0.75;
+      font-weight: 800; letter-spacing: -0.05em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+      background: linear-gradient(180deg, rgba(255,255,255,0.09) 0%, transparent 60%);
+      -webkit-background-clip: text; background-clip: text;
+      pointer-events: none; user-select: none; z-index: 0;
+    }
+
+    /* marquee */
+    .cine-footer__marquee-track {
+      position: absolute; top: 3rem; left: 0; width: 100%;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.85rem 0;
+      transform: rotate(-1.5deg) scaleX(1.08);
+      z-index: 10;
+    }
+    .cine-footer__marquee-inner {
+      display: flex; width: max-content;
+      animation: cineMarquee 38s linear infinite;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .cine-footer__marquee-item {
+      display: flex; align-items: center; gap: 2.5rem; padding: 0 2rem;
+    }
+    .cine-footer__marquee-item .dot {
+      color: rgba(255,67,180,0.5);
+    }
+    @keyframes cineMarquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* center content */
+    .cine-footer__center {
+      position: relative; z-index: 10;
+      flex: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 0 1.5rem;
+      margin-top: 5rem;
+    }
+
+    .cine-footer__heading {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.45) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(255,255,255,0.12));
+    }
+
+    /* pill buttons */
+    .cine-footer__pills-primary,
+    .cine-footer__pills-secondary {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 0.75rem;
+    }
+    .cine-footer__pills-secondary { margin-top: 0.75rem; }
+
+    .cine-pill {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      transform-style: preserve-3d;
+    }
+    .cine-pill:hover {
+      background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%);
+      border-color: rgba(255,255,255,0.22);
+      color: #fff;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.18);
+    }
+    .cine-pill--sm {
+      padding: 0.6rem 1.35rem;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.38);
+    }
+    .cine-pill--sm:hover { color: rgba(255,255,255,0.85); }
+
+    /* bottom bar */
+    .cine-footer__bottom {
+      position: relative; z-index: 20;
+      width: 100%; padding: 0 2.5rem 2rem;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .cine-footer__copy {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+    }
+
+    .cine-footer__up {
+      width: 2.75rem; height: 2.75rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none;
+    }
+
     /* ─── scroll reveal ───────────────────────────────────────── */
     .sr {
       opacity: 0; transform: translateY(36px);
@@ -797,27 +973,91 @@
       </a>
     </div>
 
-    <div class="footer-bar sr d4">
-      <span style="font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);">Adrian's Walk</span>
-      <span style="font-size:.75rem;color:rgba(255,255,255,.28);letter-spacing:.04em;">contact@adrianswalk.com · 017676611642</span>
-      <div style="display:flex;align-items:center;gap:1.5rem;">
-        <a href="imprint.html" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.22);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(255,255,255,.55)'" onmouseout="this.style.color='rgba(255,255,255,.22)'">Imprint</a>
-        <a href="privacy.html" style="font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.22);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(255,255,255,.55)'" onmouseout="this.style.color='rgba(255,255,255,.22)'">Privacy Policy</a>
-        <span style="font-size:.7rem;color:rgba(255,255,255,.18);">© 2026</span>
-      </div>
-    </div>
-
   </div>
 </section>
 
 
+<!-- ─── CINEMATIC FOOTER ───────────────────────────────────────── -->
+<div class="cine-footer-curtain" id="cine-footer-curtain">
+  <footer class="cine-footer">
+
+    <!-- ambient glow -->
+    <div class="cine-footer__aurora"></div>
+    <!-- grid texture -->
+    <div class="cine-footer__grid"></div>
+    <!-- giant bg word -->
+    <div class="cine-footer__bg-text" id="cine-bg-text">WALK</div>
+
+    <!-- diagonal marquee -->
+    <div class="cine-footer__marquee-track">
+      <div class="cine-footer__marquee-inner">
+        <div class="cine-footer__marquee-item">
+          <span>Web Design</span><span class="dot">✦</span>
+          <span>Conversion-First</span><span class="dot">✦</span>
+          <span>No Templates</span><span class="dot">✦</span>
+          <span>1–2 Week Delivery</span><span class="dot">✦</span>
+          <span>Real Business Results</span><span class="dot">✦</span>
+          <span>Premium Builds</span><span class="dot">✦</span>
+        </div>
+        <div class="cine-footer__marquee-item">
+          <span>Web Design</span><span class="dot">✦</span>
+          <span>Conversion-First</span><span class="dot">✦</span>
+          <span>No Templates</span><span class="dot">✦</span>
+          <span>1–2 Week Delivery</span><span class="dot">✦</span>
+          <span>Real Business Results</span><span class="dot">✦</span>
+          <span>Premium Builds</span><span class="dot">✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- center content -->
+    <div class="cine-footer__center">
+      <h2 class="cine-footer__heading" id="cine-heading">
+        Let's build<br><em style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">something.</em>
+      </h2>
+
+      <div id="cine-links">
+        <div class="cine-footer__pills-primary">
+          <a href="mailto:contact@adrianswalk.com" class="cine-pill magnetic-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Start a Project
+          </a>
+          <a href="tel:017676611642" class="cine-pill magnetic-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 01.21 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.29 6.29l1.28-1.28a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+            Book a Call
+          </a>
+        </div>
+        <div class="cine-footer__pills-secondary">
+          <a href="#work"        class="cine-pill cine-pill--sm magnetic-btn">View Work</a>
+          <a href="imprint.html" class="cine-pill cine-pill--sm magnetic-btn">Imprint</a>
+          <a href="privacy.html" class="cine-pill cine-pill--sm magnetic-btn">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="cine-footer__bottom">
+      <span class="cine-footer__copy">© 2026 Adrian's Walk · contact@adrianswalk.com</span>
+      <button class="cine-pill cine-pill--sm magnetic-btn cine-footer__up" id="cine-up" aria-label="Back to top">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="transition:transform .3s"><path d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+      </button>
+    </div>
+
+  </footer>
+</div>
+
+
 <!-- ─── SCRIPTS ───────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
 <script>
 (function () {
 
   /* ── Lenis ───────────────────────────── */
   const lenis = new Lenis({ lerp: 0.082, smoothWheel: true });
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
   (function tick(t) { lenis.raf(t); requestAnimationFrame(tick); })(0);
 
   /* ── Nav scroll state ────────────────── */
@@ -988,6 +1228,52 @@
     });
   }, { threshold: 0.07 });
   document.querySelectorAll('.sr').forEach(el => io.observe(el));
+
+  /* ── Cinematic footer ────────────────── */
+  (function () {
+    const curtain = document.getElementById('cine-footer-curtain');
+    if (!curtain) return;
+
+    /* parallax on giant bg text */
+    gsap.fromTo('#cine-bg-text',
+      { y: '8vh', scale: 0.85, opacity: 0 },
+      { y: '0vh', scale: 1, opacity: 1, ease: 'power1.out',
+        scrollTrigger: { trigger: curtain, start: 'top 85%', end: 'bottom bottom', scrub: 1 } }
+    );
+
+    /* staggered content reveal */
+    gsap.fromTo(['#cine-heading', '#cine-links'],
+      { y: 55, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.15, ease: 'power3.out',
+        scrollTrigger: { trigger: curtain, start: 'top 45%', end: 'bottom bottom', scrub: 1 } }
+    );
+
+    /* magnetic pill buttons */
+    document.querySelectorAll('.magnetic-btn').forEach(el => {
+      el.addEventListener('mousemove', function (e) {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width  / 2;
+        const y = e.clientY - r.top  - r.height / 2;
+        gsap.to(el, { x: x * 0.38, y: y * 0.38, rotateX: -y * 0.12, rotateY: x * 0.12,
+          scale: 1.06, ease: 'power2.out', duration: 0.38 });
+      });
+      el.addEventListener('mouseleave', function () {
+        gsap.to(el, { x: 0, y: 0, rotateX: 0, rotateY: 0, scale: 1,
+          ease: 'elastic.out(1,0.3)', duration: 1.1 });
+      });
+    });
+
+    /* back to top */
+    document.getElementById('cine-up').addEventListener('click', function () {
+      lenis.scrollTo(0, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
+    });
+
+    /* up-arrow hover lift */
+    const upBtn = document.getElementById('cine-up');
+    const upArrow = upBtn.querySelector('svg');
+    upBtn.addEventListener('mouseenter', () => { upArrow.style.transform = 'translateY(-3px)'; });
+    upBtn.addEventListener('mouseleave', () => { upArrow.style.transform = ''; });
+  })();
 
 })();
 </script>
