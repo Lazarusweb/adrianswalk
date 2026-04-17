@@ -8,7 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- Syne = Roobert analogue / Instrument Serif italic = PP Editorial New analogue -->
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap"
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
 
   <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
 
@@ -881,7 +885,11 @@
         url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
         loading-anim-type="none"
       ></spline-viewer>
-      <img class="hero-mobile-img" src="robot.png" alt="" aria-hidden="true" />
+      <picture>
+        <source type="image/webp" srcset="robot.webp">
+        <img class="hero-mobile-img" src="robot.jpg" alt="" aria-hidden="true"
+             width="860" height="298" fetchpriority="high">
+      </picture>
       <div id="spline-cover"></div>
     </div>
 
@@ -911,27 +919,27 @@
 
     <!-- left — scrolls -->
     <div class="gallery-scroll">
-      <figure><img src="gallery/92A4E046-4F39-43AD-8E75-2D61FE632ECF.png" alt="" /></figure>
-      <figure><img src="gallery/4DF8FE3E-5D0A-41CC-8631-32FBDE068D6D.png" alt="" /></figure>
-      <figure><img src="gallery/1174C91E-A7C4-49C7-96AA-01DBA2B191A4.png" alt="" /></figure>
-      <figure><img src="gallery/DA7553ED-EE42-48B6-8099-33C3E4639726.png" alt="" /></figure>
-      <figure><img src="gallery/5198854F-D54A-49CB-AF3B-258FD4341A5E.png" alt="" /></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/92A4E046-4F39-43AD-8E75-2D61FE632ECF.webp"><img src="gallery/92A4E046-4F39-43AD-8E75-2D61FE632ECF.jpg" alt="" width="1200" height="689" fetchpriority="high" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/4DF8FE3E-5D0A-41CC-8631-32FBDE068D6D.webp"><img src="gallery/4DF8FE3E-5D0A-41CC-8631-32FBDE068D6D.jpg" alt="" width="1200" height="695" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/1174C91E-A7C4-49C7-96AA-01DBA2B191A4.webp"><img src="gallery/1174C91E-A7C4-49C7-96AA-01DBA2B191A4.jpg" alt="" width="1200" height="695" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/DA7553ED-EE42-48B6-8099-33C3E4639726.webp"><img src="gallery/DA7553ED-EE42-48B6-8099-33C3E4639726.jpg" alt="" width="1200" height="897" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/5198854F-D54A-49CB-AF3B-258FD4341A5E.webp"><img src="gallery/5198854F-D54A-49CB-AF3B-258FD4341A5E.jpg" alt="" width="1200" height="689" loading="lazy" decoding="async"></picture></figure>
     </div>
 
     <!-- center — sticky -->
     <div class="gallery-sticky">
-      <figure><img src="gallery/2424C5C3-FA3B-475C-8A40-C86A409C857C.png" alt="" /></figure>
-      <figure><img src="gallery/D95EED19-3AE2-49B6-9A03-3A0C90DC23B1.png" alt="" /></figure>
-      <figure><img src="gallery/CF8A18F2-CB7D-41BC-81C6-6C5B51C91541.png" alt="" /></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/2424C5C3-FA3B-475C-8A40-C86A409C857C.webp"><img src="gallery/2424C5C3-FA3B-475C-8A40-C86A409C857C.jpg" alt="" width="1200" height="689" fetchpriority="high" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/D95EED19-3AE2-49B6-9A03-3A0C90DC23B1.webp"><img src="gallery/D95EED19-3AE2-49B6-9A03-3A0C90DC23B1.jpg" alt="" width="1200" height="689" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/CF8A18F2-CB7D-41BC-81C6-6C5B51C91541.webp"><img src="gallery/CF8A18F2-CB7D-41BC-81C6-6C5B51C91541.jpg" alt="" width="1200" height="694" loading="lazy" decoding="async"></picture></figure>
     </div>
 
     <!-- right — scrolls -->
     <div class="gallery-scroll">
-      <figure><img src="gallery/79C31F69-447B-4EEC-BB2C-D8CA1D9087F2.png" alt="" /></figure>
-      <figure><img src="gallery/334A0DA7-2579-4123-967E-B397B6875783.png" alt="" /></figure>
-      <figure><img src="gallery/BF3DB8F5-F62C-4E28-A114-B04D287CE472.png" alt="" /></figure>
-      <figure><img src="gallery/E3D82E4F-62EC-4523-8E87-9EAC4AB70355.png" alt="" /></figure>
-      <figure><img src="gallery/B0C6A02F-D42E-479F-9F4D-4EEE9D57FBB4.png" alt="" /></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/79C31F69-447B-4EEC-BB2C-D8CA1D9087F2.webp"><img src="gallery/79C31F69-447B-4EEC-BB2C-D8CA1D9087F2.jpg" alt="" width="1200" height="694" fetchpriority="high" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/334A0DA7-2579-4123-967E-B397B6875783.webp"><img src="gallery/334A0DA7-2579-4123-967E-B397B6875783.jpg" alt="" width="1200" height="694" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/BF3DB8F5-F62C-4E28-A114-B04D287CE472.webp"><img src="gallery/BF3DB8F5-F62C-4E28-A114-B04D287CE472.jpg" alt="" width="1200" height="684" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/E3D82E4F-62EC-4523-8E87-9EAC4AB70355.webp"><img src="gallery/E3D82E4F-62EC-4523-8E87-9EAC4AB70355.jpg" alt="" width="1200" height="689" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="gallery/B0C6A02F-D42E-479F-9F4D-4EEE9D57FBB4.webp"><img src="gallery/B0C6A02F-D42E-479F-9F4D-4EEE9D57FBB4.jpg" alt="" width="1200" height="689" loading="lazy" decoding="async"></picture></figure>
     </div>
 
   </div>
@@ -1080,9 +1088,9 @@
 
 
 <!-- ─── SCRIPTS ───────────────────────────────────────────────── -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
 <script>
 (function () {
 
@@ -1173,15 +1181,20 @@
     window.addEventListener('resize', resize);
     resize();
 
-    let t0 = null;
+    let t0 = null, rafId = null, heroVisible = true;
     function render(ts) {
+      if (!heroVisible) { rafId = null; return; }
       if (!t0) t0 = ts;
       gl.uniform1f(uT, (ts - t0) * 0.001);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
+    new IntersectionObserver(([e]) => {
+      heroVisible = e.isIntersecting;
+      if (heroVisible && !rafId) rafId = requestAnimationFrame(render);
+    }, { threshold: 0 }).observe(document.getElementById('hero'));
+    rafId = requestAnimationFrame(render);
   })();
 
   /* ── FAQ — split panel ───────────────── */
