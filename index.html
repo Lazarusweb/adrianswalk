@@ -119,6 +119,13 @@
       width: 100%; height: 100%; object-fit: cover;
       z-index: 0;
     }
+    .hero-video::-webkit-media-controls,
+    .hero-video::-webkit-media-controls-panel,
+    .hero-video::-webkit-media-controls-play-button,
+    .hero-video::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
 
     /* Mobile: hide video, show PNG background */
     @media (max-width: 860px) {
@@ -705,7 +712,7 @@
 
 <!-- ─── HERO ─────────────────────────────────────────────────── -->
 <section id="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="hero-poster.jpg">
     <source src="hero.mp4" type="video/mp4">
   </video>
   <div class="hero-bar hero-bar--top"></div>
@@ -919,10 +926,16 @@
     heroVid.addEventListener('loadedmetadata', tryPlay, { once: true });
     heroVid.addEventListener('canplaythrough', tryPlay, { once: true });
 
-    /* if browser still blocks it, play on first interaction */
-    ['click', 'touchstart', 'keydown'].forEach(evt =>
+    /* if browser still blocks it, play on first interaction or scroll */
+    ['click', 'touchstart', 'keydown', 'scroll', 'pointerdown'].forEach(evt =>
       document.addEventListener(evt, tryPlay, { once: true, passive: true })
     );
+
+    /* IntersectionObserver retry for Safari */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { if (e.isIntersecting) tryPlay(); }, { threshold: 0.1 })
+        .observe(heroVid);
+    }
   }
 
   gsap.registerPlugin(ScrollTrigger);
