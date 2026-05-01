@@ -138,24 +138,46 @@
       }
     }
 
-    /* Cinematic letterbox bars */
-    .hero-bar {
-      position: absolute; left: 0; right: 0;
-      height: 7vh; background: var(--bg); z-index: 3;
-      pointer-events: none;
+    /* Business ticker — bottom of hero */
+    .hero-ticker-wrap {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      z-index: 4; overflow: hidden; pointer-events: none;
+      padding: 3.5rem 0 1.25rem;
+      background: linear-gradient(to top, rgba(8,8,6,0.82) 0%, transparent 100%);
     }
-    .hero-bar--top    { top: 0; }
-    .hero-bar--bottom { bottom: 0; }
+    .hero-ticker {
+      display: flex; width: max-content;
+      animation: heroTicker 36s linear infinite;
+    }
+    .hero-ticker:hover { animation-play-state: paused; }
+    .hero-ticker-item {
+      white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6875rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.48);
+      padding: 0 1.25rem;
+    }
+    .hero-ticker-sep {
+      color: rgba(255,255,255,0.18);
+      font-size: 0.55rem;
+      padding: 0;
+      align-self: center;
+    }
+    @keyframes heroTicker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
     /* Overlay for text legibility */
     .hero-overlay {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background:
         linear-gradient(to bottom,
-          rgba(8,8,6,0.60) 0%,
-          rgba(8,8,6,0.38) 30%,
+          rgba(8,8,6,0.72) 0%,
+          rgba(8,8,6,0.38) 22%,
           rgba(8,8,6,0.22) 55%,
-          rgba(8,8,6,0.65) 100%),
+          rgba(8,8,6,0.55) 100%),
         radial-gradient(ellipse at center, transparent 25%, rgba(8,8,6,0.40) 100%);
     }
 
@@ -740,9 +762,44 @@
       });
     })();
   </script>
-  <div class="hero-bar hero-bar--top"></div>
-  <div class="hero-bar hero-bar--bottom"></div>
   <div class="hero-overlay"></div>
+  <div class="hero-ticker-wrap" aria-hidden="true">
+    <div class="hero-ticker">
+      <span class="hero-ticker-item">E-Commerce</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">SaaS Products</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Service Business</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Personal Brand</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Restaurant & Food</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Creative Agency</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Tech Startup</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Portfolio</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Law Firm</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Fitness & Wellness</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Real Estate</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Consulting</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Photography</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Fashion Brand</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Local Business</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Coaching</span><span class="hero-ticker-sep">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span class="hero-ticker-item">E-Commerce</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">SaaS Products</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Service Business</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Personal Brand</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Restaurant & Food</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Creative Agency</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Tech Startup</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Portfolio</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Law Firm</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Fitness & Wellness</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Real Estate</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Consulting</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Photography</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Fashion Brand</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Local Business</span><span class="hero-ticker-sep">✦</span>
+      <span class="hero-ticker-item">Coaching</span><span class="hero-ticker-sep">✦</span>
+    </div>
+  </div>
   <div class="hero-content">
     <h1 class="hero-h1">
       Building what <span class="hero-h1-italic">stands out.</span>
