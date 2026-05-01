@@ -122,7 +122,8 @@
     .hero-video::-webkit-media-controls,
     .hero-video::-webkit-media-controls-panel,
     .hero-video::-webkit-media-controls-play-button,
-    .hero-video::-webkit-media-controls-start-playback-button {
+    .hero-video::-webkit-media-controls-start-playback-button,
+    .hero-video::-webkit-media-controls-overlay-play-button {
       display: none !important;
       -webkit-appearance: none;
     }
@@ -168,23 +169,33 @@
       gap: 0;
     }
 
-    /* Cinematic subtitle style — light weight, sentence case, two-tone */
     .hero-h1 {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      font-size: clamp(1.9rem, 4.5vw, 4.2rem);
-      line-height: 1.35;
-      letter-spacing: 0.01em;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.4rem, 5.5vw, 5.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
       text-transform: none;
-      color: rgba(255, 255, 255, 0.92);
+      color: rgba(255, 255, 255, 0.95);
       opacity: 0;
       animation: heroCinema 2.6s var(--ease) 0.2s forwards;
     }
 
+    .hero-h1 .hero-h1-italic {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
     .hero-h1 .hero-h1-dim {
       display: block;
-      color: rgba(255, 255, 255, 0.52);
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
       font-weight: 300;
+      letter-spacing: 0.01em;
+      color: rgba(255, 255, 255, 0.52);
+      margin-top: 1.4rem;
     }
 
     .hero-ctas {
@@ -691,7 +702,7 @@
       .faq-split { grid-template-columns: 1fr; gap: 2.5rem; }
       .faq-q-list { position: relative; top: auto; }
       .footer-bar { flex-direction: column; align-items: center; text-align: center; }
-      .hero-h1 { font-size: clamp(1.6rem, 7vw, 2.8rem); }
+      .hero-h1 { font-size: clamp(1.8rem, 7.5vw, 3rem); }
       .hero-bar { height: 5vh; }
     }
   </style>
@@ -712,16 +723,27 @@
 
 <!-- ─── HERO ─────────────────────────────────────────────────── -->
 <section id="hero">
-  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="hero-poster-2.jpg">
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="hero-poster-2.jpg" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny">
     <source src="hero.mp4" type="video/mp4">
   </video>
+  <script>
+    (function(){
+      var v = document.currentScript.previousElementSibling;
+      v.muted = true;
+      v.play().catch(function(){
+        var resume = function(){ v.play().catch(function(){}); document.removeEventListener('click', resume); document.removeEventListener('touchstart', resume); };
+        document.addEventListener('click', resume, { passive: true });
+        document.addEventListener('touchstart', resume, { passive: true });
+      });
+    })();
+  </script>
   <div class="hero-bar hero-bar--top"></div>
   <div class="hero-bar hero-bar--bottom"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <h1 class="hero-h1">
-      Building what stands out.
-      <span class="hero-h1-dim">Premium websites built to perform.</span>
+      Building what <span class="hero-h1-italic">stands out.</span>
+      <span class="hero-h1-dim">High-converting websites built to be different.</span>
     </h1>
   </div>
 </section>
@@ -914,29 +936,6 @@
 
   const isMobile = window.innerWidth <= 860;
 
-  /* ── Video autoplay enforcement ──────── */
-  const heroVid = document.querySelector('.hero-video');
-  if (heroVid) {
-    heroVid.muted = true;
-    heroVid.setAttribute('muted', '');
-
-    const tryPlay = () => heroVid.play().catch(() => {});
-
-    tryPlay();
-    heroVid.addEventListener('loadedmetadata', tryPlay, { once: true });
-    heroVid.addEventListener('canplaythrough', tryPlay, { once: true });
-
-    /* if browser still blocks it, play on first interaction or scroll */
-    ['click', 'touchstart', 'keydown', 'scroll', 'pointerdown'].forEach(evt =>
-      document.addEventListener(evt, tryPlay, { once: true, passive: true })
-    );
-
-    /* IntersectionObserver retry for Safari */
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(([e]) => { if (e.isIntersecting) tryPlay(); }, { threshold: 0.1 })
-        .observe(heroVid);
-    }
-  }
 
   gsap.registerPlugin(ScrollTrigger);
   const nav = document.getElementById('nav');
