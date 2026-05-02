@@ -309,196 +309,305 @@
       display: flex; justify-content: center;
     }
 
-    /* ─── about ───────────────────────────────────────────────── */
-    #about { background: var(--bg); border-top: 1px solid var(--border); }
-
-    .about-grid {
-      max-width: 1280px; margin: 0 auto;
-      padding: 7rem 3rem 0;
+    /* ─── about (redesigned) ─────────────────────────────────────── */
+    #about {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
     }
 
-    .about-copy-body {
-      font-size: 1.075rem; line-height: 1.82;
-      color: var(--dim); font-weight: 400;
+    .about-bg-glow {
+      position: absolute; top: 5%; right: -20%;
+      width: 75vw; height: 75vw; max-width: 900px; max-height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,192,96,0.05) 0%, transparent 62%);
+      pointer-events: none; z-index: 0;
+      animation: aboutGlowDrift 16s ease-in-out infinite alternate;
+      will-change: transform;
     }
-    .about-copy-body strong { color: var(--text); font-weight: 700; }
-
-    .about-copy-inner { max-width: 680px; }
-
-    .stats-row {
-      max-width: 1280px; margin: 0 auto;
-      padding: 3rem 3rem 8rem;
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 3px;
+    @keyframes aboutGlowDrift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(-6vw,5vh) scale(1.1); }
     }
 
-    .stat-block {
-      padding: 2rem 2.25rem;
+    .about-inner {
+      max-width: 1300px; margin: 0 auto;
+      padding: 8rem 3rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .about-headline { margin: 1.5rem 0 2.75rem; }
+
+    .about-hl-1 {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 6.5vw, 7rem);
+      font-weight: 800; line-height: 0.88;
+      letter-spacing: -0.04em; text-transform: uppercase;
+      color: var(--text);
+    }
+    .about-hl-2 {
+      display: block;
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-weight: 400;
+      font-size: clamp(3rem, 6vw, 6.5rem);
+      line-height: 0.92; letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .about-hl-3 {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.1rem, 2vw, 2rem);
+      font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      background: var(--grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-top: 0.85rem; opacity: 0.85;
+    }
+
+    .about-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; line-height: 1.88;
+      color: var(--dim); font-weight: 300;
+      max-width: 520px; margin-bottom: 1.5rem;
+      letter-spacing: 0.008em;
+    }
+    .about-body strong { color: var(--text); font-weight: 500; }
+
+    .about-sig {
+      margin-top: 2.5rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .about-sig-dash { width: 20px; height: 1px; background: var(--dim); }
+    .about-sig-name {
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+    }
+
+    /* ── Radial skill chart ── */
+    .about-chart-wrap {
+      position: relative;
+      width: 100%; max-width: 420px;
+      margin: 0 auto; aspect-ratio: 1;
+    }
+    .about-chart-svg { width: 100%; height: 100%; overflow: visible; }
+
+    .skill-arc {
+      stroke-dashoffset: var(--full);
+      transition: stroke-dashoffset 1.8s cubic-bezier(0.19,1,0.22,1);
+      will-change: stroke-dashoffset;
+    }
+
+    /* Orbital rings */
+    .about-orbit-ring {
+      position: absolute; top: 50%; left: 50%;
+      border-radius: 50%;
+      border: 1px solid rgba(240,232,216,0.055);
+      pointer-events: none; will-change: transform;
+    }
+    .about-orbit-r1 {
+      width: 96%; height: 96%; margin: -48% 0 0 -48%;
+      animation: aOrbit 30s linear infinite;
+    }
+    .about-orbit-r2 {
+      width: 115%; height: 115%; margin: -57.5% 0 0 -57.5%;
+      animation: aOrbit 48s linear infinite reverse;
+    }
+    .about-orbit-dot {
+      position: absolute; top: -3px; left: calc(50% - 3px);
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(232,192,96,0.7);
+      box-shadow: 0 0 10px rgba(232,192,96,0.5), 0 0 20px rgba(232,192,96,0.2);
+    }
+    @keyframes aOrbit { to { transform: rotate(360deg); } }
+
+    /* Chart labels */
+    .chart-labels { position: absolute; inset: 0; pointer-events: none; }
+    .chart-label {
+      position: absolute;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(240,232,216,0.45);
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .chart-label-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .chart-label-pct {
+      font-family: 'Syne', sans-serif; font-size: 0.55rem; font-weight: 800;
+      background: var(--grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* ── Stats row ── */
+    .about-stats {
+      max-width: 1300px; margin: 0 auto;
+      padding: 1.5rem 3rem 8rem;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 3px; position: relative; z-index: 1;
+    }
+
+    .astat {
+      padding: 2.5rem 2.5rem 2.25rem;
       border: 1px solid var(--border);
       background: rgba(240,232,216,0.02);
-      transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
+      position: relative; overflow: hidden;
+      transition: border-color 0.5s var(--ease), background 0.5s var(--ease);
     }
-    .stat-block:hover {
-      border-color: rgba(240,232,216,0.22);
-      background: rgba(240,232,216,0.04);
+    .astat::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 0; height: 2px; background: var(--grad);
+      transition: width 0.85s var(--ease);
     }
-    .stat-num {
+    .astat:hover { border-color: rgba(240,232,216,0.22); background: rgba(240,232,216,0.04); }
+    .astat:hover::before { width: 100%; }
+
+    .astat-numrow { display: flex; align-items: baseline; gap: 0.15rem; margin-bottom: 0.6rem; }
+    .astat-num {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(2.2rem, 4vw, 3.25rem); font-weight: 800;
-      line-height: 1;
+      font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+      font-weight: 800; line-height: 1;
       background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .stat-desc {
+    .astat-unit {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+      font-weight: 800; line-height: 1.1;
+      background: var(--grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0.65;
+    }
+    .astat-label {
       font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--dim); margin-top: 0.5rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+    }
+    .astat-bar {
+      margin-top: 1.5rem; height: 1.5px;
+      background: rgba(240,232,216,0.08); overflow: hidden;
+    }
+    .astat-bar-fill {
+      height: 100%; width: 0; background: var(--grad);
+      transition: width 2.2s cubic-bezier(0.19,1,0.22,1);
     }
 
-    /* ─── faq ─────────────────────────────────────────────────── */
-    #faq { background: var(--bg); border-top: 1px solid var(--border); }
+    /* ─── faq (redesigned accordion) ────────────────────────────── */
+    #faq {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+
+    .faq-bg-blob {
+      position: absolute;
+      width: 45vw; height: 45vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,192,96,0.05) 0%, transparent 65%);
+      filter: blur(80px);
+      pointer-events: none; z-index: 0;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
 
     .faq-wrap {
-      max-width: 1200px; margin: 0 auto;
-      padding: 7rem 3rem 9rem;
-    }
-
-    .faq-header-row { margin-bottom: 5rem; }
-
-    .faq-split {
+      max-width: 1160px; margin: 0 auto;
+      padding: 5.5rem 3rem 6rem;
+      position: relative; z-index: 1;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1fr 1.55fr;
       gap: 5rem;
       align-items: start;
     }
 
-    .faq-q-list { position: sticky; top: 7rem; }
-
-    .faq-q-btn {
-      width: 100%; background: none; border: none;
-      padding: 1.5rem 0;
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 2.75rem 1fr 1.25rem;
-      gap: 0.75rem;
-      align-items: center;
-      cursor: pointer;
-      text-align: left;
-      position: relative;
-      overflow: hidden;
-    }
-    .faq-q-btn:last-child { border-bottom: 1px solid var(--border); }
-
-    .faq-q-btn::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0;
-      width: 0; height: 1.5px;
-      background: var(--grad);
-      transition: width 0.55s var(--ease);
-    }
-    .faq-q-btn.faq-active::after { width: 100%; }
-
-    .faq-q-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.62rem; font-weight: 800;
-      letter-spacing: 0.16em;
-      color: rgba(240,232,216,0.18);
-      transition: color 0.35s;
-      display: block;
-    }
-    .faq-q-btn.faq-active .faq-q-num {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .faq-header-row {
+      position: sticky;
+      top: 5.5rem;
     }
 
-    .faq-q-label {
+    .faq-header-desc {
       font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      font-size: clamp(0.9rem, 1.3vw, 1.05rem);
-      color: var(--dim);
-      line-height: 1.45;
-      letter-spacing: 0.005em;
-      transition: color 0.35s;
-    }
-    .faq-q-btn.faq-active .faq-q-label { color: var(--text); font-weight: 500; }
-    .faq-q-btn:not(.faq-active):hover .faq-q-label { color: rgba(240,232,216,0.65); }
-
-    .faq-q-arrow {
-      width: 10px; height: 10px;
-      border-right: 1.5px solid rgba(240,232,216,0.2);
-      border-top: 1.5px solid rgba(240,232,216,0.2);
-      transform: rotate(45deg) translateX(-2px);
-      transition: border-color 0.35s, transform 0.35s var(--ease);
-      flex-shrink: 0;
-    }
-    .faq-q-btn.faq-active .faq-q-arrow {
-      border-color: var(--text);
-      transform: rotate(135deg) translateX(-2px);
+      font-weight: 300; font-size: 0.875rem;
+      line-height: 1.75; color: var(--dim);
+      max-width: 300px; margin-top: 1.25rem;
+      letter-spacing: 0.01em;
     }
 
-    .faq-a-panel {
-      position: relative;
-      min-height: 260px;
-      padding-top: 0.25rem;
+    .faq-list { list-style: none; }
+
+    .faq-item { border-top: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .faq-trigger {
+      width: 100%; background: none; border: none;
+      padding: 1.1rem 0;
+      display: flex;
+      gap: 1rem; align-items: center;
+      cursor: pointer; text-align: left;
     }
 
-    .faq-a-entry {
-      position: absolute; inset: 0;
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
-      pointer-events: none;
-    }
-    .faq-a-entry.faq-a-visible {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-      position: relative;
-    }
-
-    .faq-a-watermark {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(5rem, 9vw, 8rem);
-      font-weight: 800; line-height: 1;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      opacity: 0.1;
-      margin-bottom: -1.5rem;
-      display: block;
+    .faq-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(240,232,216,0.18);
+      flex-shrink: 0; width: 1.5rem;
+      transition: color 0.35s var(--ease);
       user-select: none;
     }
+    .faq-item.faq-open .faq-num { color: #c87830; }
 
-    .faq-a-question {
+    .faq-q-text {
       font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.2rem, 2vw, 1.7rem);
-      line-height: 1.25;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 1.75rem;
+      font-size: clamp(0.875rem, 1.15vw, 1rem);
+      font-weight: 600; line-height: 1.4;
+      letter-spacing: -0.01em; color: var(--dim);
+      flex: 1;
+      transition: color 0.3s;
     }
+    .faq-item.faq-open .faq-q-text,
+    .faq-trigger:hover .faq-q-text { color: var(--text); }
 
-    .faq-a-text {
+    .faq-icon {
+      position: relative;
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 1px solid rgba(240,232,216,0.12); flex-shrink: 0;
+      transition: border-color 0.3s, background 0.3s, transform 0.45s var(--ease);
+    }
+    .faq-item.faq-open .faq-icon {
+      border-color: rgba(240,232,216,0.28);
+      background: rgba(240,232,216,0.05);
+      transform: rotate(45deg);
+    }
+    .faq-icon::before, .faq-icon::after {
+      content: ''; position: absolute;
+      background: rgba(240,232,216,0.4);
+      border-radius: 1px;
+      transition: background 0.3s, opacity 0.3s;
+    }
+    .faq-icon::before { width: 8px; height: 1px; top: calc(50% - 0.5px); left: calc(50% - 4px); }
+    .faq-icon::after  { width: 1px; height: 8px; top: calc(50% - 4px); left: calc(50% - 0.5px); }
+    .faq-item.faq-open .faq-icon::after { opacity: 0; }
+    .faq-item.faq-open .faq-icon::before,
+    .faq-trigger:hover .faq-icon::before,
+    .faq-trigger:hover .faq-icon::after { background: rgba(240,232,216,0.8); }
+
+    .faq-answer-wrap {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.5s cubic-bezier(0.19,1,0.22,1);
+    }
+    .faq-item.faq-open .faq-answer-wrap { grid-template-rows: 1fr; }
+    .faq-answer-inner { overflow: hidden; min-height: 0; }
+
+    .faq-answer-body {
+      margin-left: 2.5rem;
+      padding: 0.1rem 1.5rem 1.1rem 0;
       font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      font-size: 0.96rem; line-height: 1.92;
-      color: var(--dim);
-      border-left: 1px solid rgba(240,232,216,0.1);
-      padding-left: 1.5rem;
+      font-size: 0.825rem; line-height: 1.8;
+      color: var(--dim); font-weight: 300;
       letter-spacing: 0.008em;
-    }
-
-    @media (max-width: 820px) {
-      .faq-split { grid-template-columns: 1fr; gap: 3rem; }
-      .faq-q-list { position: relative; top: auto; }
-      .faq-a-panel { min-height: auto; }
-      .faq-a-entry { position: relative; inset: auto; }
     }
 
     /* ─── buttons ─────────────────────────────────────────────── */
@@ -721,11 +830,17 @@
       .gallery-grid { grid-template-columns: 1fr; }
       .gallery-sticky { position: relative; height: auto; }
       .gallery-sticky figure img { height: 260px; }
-      .about-grid { padding: 5rem 1.5rem 0; }
-      .stats-row { grid-template-columns: 1fr; padding: 2rem 1.5rem 5rem; }
-      .faq-wrap { padding: 5rem 1.5rem 6rem; }
-      .faq-split { grid-template-columns: 1fr; gap: 2.5rem; }
-      .faq-q-list { position: relative; top: auto; }
+      /* About */
+      .about-inner { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; gap: 3rem; }
+      .about-chart-wrap { max-width: 300px; }
+      .about-stats { grid-template-columns: 1fr; padding: 1rem 1.5rem 5rem; }
+      /* FAQ */
+      .faq-wrap { padding: 4rem 1.5rem 5rem; grid-template-columns: 1fr; gap: 2.5rem; }
+      .faq-header-row { position: relative; top: auto; }
+      .faq-header-desc { max-width: none; }
+      .faq-trigger { padding: 1rem 0; }
+      .faq-answer-body { margin-left: 2rem; }
+      /* Misc */
       .footer-bar { flex-direction: column; align-items: center; text-align: center; }
       .hero-h1 { font-size: clamp(1.8rem, 7.5vw, 3rem); }
       .hero-bar { height: 5vh; }
@@ -860,43 +975,135 @@
 
 <!-- ─── ABOUT ──────────────────────────────────────────────────── -->
 <section id="about">
-  <div class="about-grid">
-    <div class="about-copy-inner">
+  <div class="about-bg-glow" aria-hidden="true"></div>
+
+  <div class="about-inner">
+    <!-- Left: Copy -->
+    <div>
       <span class="eyebrow sr">Who's Adrian?</span>
 
-      <h2 class="sr d1" style="margin:1.375rem 0 3rem;">
-        <span class="display-title" style="display:block;">Real<br>Business.</span>
-        <span class="display-italic grad-text">Sharp Design.</span>
+      <h2 class="about-headline sr d1">
+        <span class="about-hl-1">Real</span>
+        <span class="about-hl-1">Business.</span>
+        <span class="about-hl-2">Sharp Design.</span>
+        <span class="about-hl-3">Strategy · Build · Launch</span>
       </h2>
 
-      <p class="about-copy-body sr d2" style="margin-bottom:1.75rem;">
-        I ran a marketing agency and built my own e-commerce brand from the ground up. I tested every growth lever out there — ads, email, SEO, content — and the one skill that consistently delivered the highest ROI was
-        <strong>creating high-converting websites.</strong>
+      <p class="about-body sr d2">
+        I ran a marketing agency and built my own e-commerce brand from the ground up. I tested every growth lever out there — ads, email, SEO, content — and the one skill that consistently delivered the highest ROI was <strong>creating high-converting websites.</strong>
       </p>
 
-      <p class="about-copy-body sr d3">
+      <p class="about-body sr d3">
         That insight changed everything for me. Now I combine real business experience with sharp design instincts to build sites that don't just look premium — they drive revenue, capture leads, and turn visitors into customers.
       </p>
 
-      <div class="sr d4" style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:1rem;">
-        <div style="width:20px;height:1px;background:var(--dim);"></div>
-        <span style="font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);">Adrian Honke</span>
+      <div class="about-sig sr d4">
+        <div class="about-sig-dash"></div>
+        <span class="about-sig-name">Adrian Honke</span>
+      </div>
+    </div>
+
+    <!-- Right: Radial skill chart -->
+    <div class="about-chart-wrap sr d2">
+      <div class="about-orbit-ring about-orbit-r1" aria-hidden="true"><div class="about-orbit-dot"></div></div>
+      <div class="about-orbit-ring about-orbit-r2" aria-hidden="true"><div class="about-orbit-dot"></div></div>
+
+      <svg viewBox="0 0 300 300" class="about-chart-svg" aria-label="Expertise overview">
+        <defs>
+          <linearGradient id="arcG" x1="0" y1="0" x2="300" y2="300" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#e8c060"/>
+            <stop offset="50%"  stop-color="#c87830"/>
+            <stop offset="100%" stop-color="#9e4e18"/>
+          </linearGradient>
+          <linearGradient id="arcG2" x1="300" y1="0" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#e8c060" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#9e4e18" stop-opacity="0.65"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Guide rings -->
+        <circle cx="150" cy="150" r="128" fill="none" stroke="rgba(240,232,216,0.05)" stroke-width="1"/>
+        <circle cx="150" cy="150" r="105" fill="none" stroke="rgba(240,232,216,0.05)" stroke-width="1"/>
+        <circle cx="150" cy="150" r="82"  fill="none" stroke="rgba(240,232,216,0.05)" stroke-width="1"/>
+        <circle cx="150" cy="150" r="59"  fill="none" stroke="rgba(240,232,216,0.05)" stroke-width="1"/>
+
+        <!-- E-Commerce 95% r=128 circ≈804.2 offset_empty=40.2 -->
+        <circle class="skill-arc" cx="150" cy="150" r="128"
+          fill="none" stroke="url(#arcG)" stroke-width="3.5" stroke-linecap="round"
+          stroke-dasharray="804.2" style="--full:804.2"
+          data-full="804.2" data-target="40.2"
+          transform="rotate(-90 150 150)"/>
+
+        <!-- SaaS 85% r=105 circ≈659.7 offset_empty=99.0 -->
+        <circle class="skill-arc" cx="150" cy="150" r="105"
+          fill="none" stroke="url(#arcG2)" stroke-width="3.5" stroke-linecap="round"
+          stroke-dasharray="659.7" style="--full:659.7"
+          data-full="659.7" data-target="99.0"
+          transform="rotate(-90 150 150)"/>
+
+        <!-- Conversion 90% r=82 circ≈515.2 offset_empty=51.5 -->
+        <circle class="skill-arc" cx="150" cy="150" r="82"
+          fill="none" stroke="url(#arcG)" stroke-width="3.5" stroke-linecap="round"
+          stroke-dasharray="515.2" style="--full:515.2"
+          data-full="515.2" data-target="51.5"
+          transform="rotate(-90 150 150)"/>
+
+        <!-- Brand Design 80% r=59 circ≈370.7 offset_empty=74.1 -->
+        <circle class="skill-arc" cx="150" cy="150" r="59"
+          fill="none" stroke="url(#arcG2)" stroke-width="3.5" stroke-linecap="round"
+          stroke-dasharray="370.7" style="--full:370.7"
+          data-full="370.7" data-target="74.1"
+          transform="rotate(-90 150 150)"/>
+
+        <!-- Core -->
+        <circle cx="150" cy="150" r="30" fill="rgba(232,192,96,0.06)" stroke="rgba(232,192,96,0.22)" stroke-width="1"/>
+        <text x="150" y="148" text-anchor="middle" dominant-baseline="middle"
+          font-family="Syne, sans-serif" font-size="11" font-weight="800"
+          fill="#e8c060" opacity="0.75" letter-spacing="2">AW</text>
+      </svg>
+
+      <div class="chart-labels" aria-hidden="true">
+        <span class="chart-label" style="top:3%;left:56%;">
+          <span class="chart-label-dot" style="background:#e8c060;"></span>E-Commerce<span class="chart-label-pct">95%</span>
+        </span>
+        <span class="chart-label" style="top:31%;right:-1%;">
+          <span class="chart-label-dot" style="background:#c87830;"></span>SaaS<span class="chart-label-pct">85%</span>
+        </span>
+        <span class="chart-label" style="bottom:31%;right:1%;">
+          <span class="chart-label-dot" style="background:#e8c060;"></span>Conversion<span class="chart-label-pct">90%</span>
+        </span>
+        <span class="chart-label" style="bottom:4%;left:54%;">
+          <span class="chart-label-dot" style="background:#9e4e18;"></span>Brand Design<span class="chart-label-pct">80%</span>
+        </span>
       </div>
     </div>
   </div>
 
-  <div class="stats-row">
-    <div class="stat-block sr d1">
-      <div class="stat-num">50+</div>
-      <div class="stat-desc">Websites Delivered</div>
+  <!-- Stats -->
+  <div class="about-stats">
+    <div class="astat sr d1">
+      <div class="astat-numrow">
+        <span class="astat-num" data-countup data-target="50">0</span>
+        <span class="astat-unit">+</span>
+      </div>
+      <div class="astat-label">Websites Delivered</div>
+      <div class="astat-bar"><div class="astat-bar-fill" data-width="95%"></div></div>
     </div>
-    <div class="stat-block sr d2">
-      <div class="stat-num">3×</div>
-      <div class="stat-desc">Avg. Conversion Uplift</div>
+    <div class="astat sr d2">
+      <div class="astat-numrow">
+        <span class="astat-num" data-countup data-target="3">0</span>
+        <span class="astat-unit">×</span>
+      </div>
+      <div class="astat-label">Avg. Conversion Uplift</div>
+      <div class="astat-bar"><div class="astat-bar-fill" data-width="75%"></div></div>
     </div>
-    <div class="stat-block sr d3">
-      <div class="stat-num">100%</div>
-      <div class="stat-desc">Custom Builds — No Templates</div>
+    <div class="astat sr d3">
+      <div class="astat-numrow">
+        <span class="astat-num" data-countup data-target="100">0</span>
+        <span class="astat-unit">%</span>
+      </div>
+      <div class="astat-label">Custom Builds — No Templates</div>
+      <div class="astat-bar"><div class="astat-bar-fill" data-width="100%"></div></div>
     </div>
   </div>
 </section>
@@ -904,20 +1111,18 @@
 
 <!-- ─── FAQ ───────────────────────────────────────────────────── -->
 <section id="faq">
+  <div class="faq-bg-blob" id="faq-blob" aria-hidden="true"></div>
   <div class="faq-wrap">
 
     <div class="faq-header-row">
       <span class="eyebrow sr">Frequently Asked</span>
       <h2 class="sr d1" style="margin-top:1rem;line-height:.92;letter-spacing:-.03em;">
-        <span class="display-title" style="font-size:clamp(2.5rem,5.5vw,5rem);">Got</span><span class="display-italic grad-text" style="font-size:clamp(2.2rem,5vw,4.5rem);"> Questions?</span>
+        <span class="display-title" style="font-size:clamp(2.2rem,4vw,3.75rem);">Got</span><span class="display-italic grad-text" style="font-size:clamp(2rem,3.75vw,3.5rem);"> Questions?</span>
       </h2>
-      <p class="sr d2" style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:var(--dim);max-width:400px;margin-top:1.25rem;letter-spacing:.01em;">Everything you need to know before we start building together.</p>
+      <p class="faq-header-desc sr d2">Everything you need to know before we start building together.</p>
     </div>
 
-    <div class="faq-split">
-      <div class="faq-q-list" id="faq-q-list"></div>
-      <div class="faq-a-panel" id="faq-a-panel"></div>
-    </div>
+    <ul class="faq-list" id="faq-list"></ul>
 
   </div>
 </section>
@@ -1009,14 +1214,10 @@
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
   }
 
-  /* ── FAQ — split panel ───────────────── */
+  /* ── FAQ — full-width accordion ─────── */
   const FAQS = [
-    { q: 'What types of websites do you build?',
-      a: 'I specialise in high-converting websites for e-commerce brands, SaaS products, service businesses, and personal brands. Every site is custom-built from the ground up — no templates — and engineered to perform from day one.' },
     { q: 'How long does a project take?',
       a: 'Most websites are delivered within 1–2 weeks. After our discovery call I\'ll give you an exact timeline before we begin.' },
-    { q: 'How much does a website cost?',
-      a: 'Projects start at €700 and scale based on complexity and features. I\'ll send a clear quote with no hidden costs after understanding your goals.' },
     { q: 'Do you redesign existing websites?',
       a: 'Absolutely. I audit what\'s working, identify what\'s hurting conversions, and rebuild with intent. Most clients see 2–3× conversion improvements in the first month post-launch.' },
     { q: 'What do I need to get started?',
@@ -1025,52 +1226,113 @@
       a: 'Yes. Monthly maintenance retainers cover updates, performance monitoring, and content changes. I don\'t build and disappear — I partner with clients long term.' },
   ];
 
-  const qList  = document.getElementById('faq-q-list');
-  const aPanel = document.getElementById('faq-a-panel');
-  let activeIdx = 0;
+  const faqListEl = document.getElementById('faq-list');
+  const faqBlob   = document.getElementById('faq-blob');
+  let openIdx = -1;
 
   FAQS.forEach((f, i) => {
-    const entry = document.createElement('div');
-    entry.className = 'faq-a-entry' + (i === 0 ? ' faq-a-visible' : '');
-    entry.dataset.i = i;
-    entry.innerHTML = `
-      <span class="faq-a-watermark">0${i + 1}</span>
-      <p class="faq-a-question">${f.q}</p>
-      <p class="faq-a-text">${f.a}</p>`;
-    aPanel.appendChild(entry);
+    const li = document.createElement('li');
+    li.className = 'faq-item sr';
+    li.style.transitionDelay = `${i * 0.05}s`;
+    li.innerHTML = `
+      <button class="faq-trigger" aria-expanded="false" data-i="${i}">
+        <span class="faq-num">0${i + 1}</span>
+        <span class="faq-q-text">${f.q}</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-answer-wrap" role="region">
+        <div class="faq-answer-inner">
+          <p class="faq-answer-body">${f.a}</p>
+        </div>
+      </div>`;
+    faqListEl.appendChild(li);
   });
 
-  FAQS.forEach((f, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'faq-q-btn sr' + (i === 0 ? ' faq-active' : '');
-    btn.style.transitionDelay = `${i * 0.06}s`;
-    btn.dataset.i = i;
-    btn.innerHTML = `
-      <span class="faq-q-num">0${i + 1}</span>
-      <span class="faq-q-label">${f.q}</span>
-      <span class="faq-q-arrow"></span>`;
-    qList.appendChild(btn);
-  });
-
-  function activate(idx) {
-    if (idx === activeIdx) return;
-    const prev = aPanel.querySelector('.faq-a-visible');
-    if (prev) {
-      prev.style.position = 'absolute';
-      prev.classList.remove('faq-a-visible');
-      setTimeout(() => { prev.style.position = ''; }, 520);
-    }
-    const next = aPanel.querySelector(`[data-i="${idx}"]`);
-    requestAnimationFrame(() => next.classList.add('faq-a-visible'));
-    qList.querySelectorAll('.faq-q-btn').forEach(b =>
-      b.classList.toggle('faq-active', +b.dataset.i === idx));
-    activeIdx = idx;
+  function moveFaqBlob(item) {
+    if (!faqBlob || !item) return;
+    const faqSection = document.getElementById('faq');
+    const sr = faqSection.getBoundingClientRect();
+    const ir = item.getBoundingClientRect();
+    const relY = ((ir.top - sr.top + ir.height / 2) / sr.height * 100).toFixed(1) + '%';
+    const relX = '35%';
+    faqBlob.style.top  = relY;
+    faqBlob.style.left = relX;
   }
 
-  qList.addEventListener('click', e => {
-    const btn = e.target.closest('.faq-q-btn');
-    if (btn) activate(+btn.dataset.i);
+  function openFaq(idx) {
+    const items = faqListEl.querySelectorAll('.faq-item');
+    if (openIdx >= 0 && openIdx !== idx) {
+      items[openIdx].classList.remove('faq-open');
+      items[openIdx].querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+    }
+    if (openIdx === idx) {
+      items[idx].classList.remove('faq-open');
+      items[idx].querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+      openIdx = -1;
+    } else {
+      items[idx].classList.add('faq-open');
+      items[idx].querySelector('.faq-trigger').setAttribute('aria-expanded', 'true');
+      openIdx = idx;
+      moveFaqBlob(items[idx]);
+    }
+  }
+
+  faqListEl.addEventListener('click', e => {
+    const trigger = e.target.closest('.faq-trigger');
+    if (trigger) openFaq(+trigger.dataset.i);
   });
+
+  /* open first item after DOM settles */
+  setTimeout(() => {
+    const first = faqListEl.querySelector('.faq-item');
+    if (first) { first.classList.add('faq-open'); first.querySelector('.faq-trigger').setAttribute('aria-expanded','true'); openIdx = 0; }
+  }, 80);
+
+  /* ── About radial arcs animation ─────── */
+  const chartWrap = document.querySelector('.about-chart-wrap');
+  if (chartWrap) {
+    chartWrap.querySelectorAll('.skill-arc').forEach(arc => {
+      arc.style.strokeDashoffset = arc.dataset.full;
+    });
+    const arcIO = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        chartWrap.querySelectorAll('.skill-arc').forEach((arc, i) => {
+          setTimeout(() => { arc.style.strokeDashoffset = arc.dataset.target; }, i * 130);
+        });
+        arcIO.disconnect();
+      });
+    }, { threshold: 0.35 });
+    arcIO.observe(chartWrap);
+  }
+
+  /* ── Count-up + bar fill ─────────────── */
+  function animCountUp(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 2200;
+    const t0 = performance.now();
+    (function step(now) {
+      const p    = Math.min((now - t0) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 4);
+      el.textContent = Math.round(ease * target);
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  const statsSection = document.querySelector('.about-stats');
+  if (statsSection) {
+    const statsIO = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        en.target.querySelectorAll('[data-countup]').forEach(animCountUp);
+        en.target.querySelectorAll('.astat-bar-fill').forEach(fill => {
+          fill.style.width = fill.dataset.width;
+        });
+        statsIO.unobserve(en.target);
+      });
+    }, { threshold: 0.4 });
+    statsIO.observe(statsSection);
+  }
 
   /* ── Scroll reveal ───────────────────── */
   const io = new IntersectionObserver(entries => {
