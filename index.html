@@ -12,6 +12,9 @@
     onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
+  <!-- Mobile hero — preload portrait crop for instant sharp first paint -->
+  <link rel="preload" as="image" href="hero-mobile-portrait.jpg" media="(max-width:860px) and (orientation:portrait)" fetchpriority="high" />
+  <link rel="preload" as="image" href="hero-mobile-hq.jpg" media="(max-width:860px) and (orientation:landscape)" fetchpriority="high" />
 
   <style>
     /* ─── tokens ──────────────────────────────────────────────── */
@@ -128,14 +131,18 @@
       -webkit-appearance: none;
     }
 
-    /* Mobile: hide video, show PNG background */
+    /* Mobile: hide video, show <img> background for proper fetchpriority */
     @media (max-width: 860px) {
       .hero-video { display: none; }
-      #hero {
-        background-image: url('hero-mobile.jpg');
-        background-size: cover;
-        background-position: center;
-      }
+    }
+    .hero-mobile-bg {
+      display: none;
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center center;
+    }
+    @media (max-width: 860px) {
+      .hero-mobile-bg { display: block; }
     }
 
     /* Business ticker — bottom of hero */
@@ -822,28 +829,100 @@
     .sr.d3 { transition-delay: 0.34s; }
     .sr.d4 { transition-delay: 0.46s; }
 
-    /* ─── responsive ──────────────────────────────────────────── */
-    @media (max-width: 780px) {
+    /* ─── responsive — unified mobile (≤860px) ───────────────── */
+    @media (max-width: 860px) {
+      /* Nav */
       #nav { padding: 1.25rem 1.5rem; }
       .nav-link { display: none; }
+      .nav-cta { padding: 0.5rem 1.15rem; font-size: 0.625rem; }
+
+      /* Hero */
+      .hero-content {
+        padding-top: 24vh;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+      .hero-h1 { font-size: clamp(2rem, 7.5vw, 3.2rem); }
+      .hero-h1 .hero-h1-dim { font-size: clamp(0.875rem, 3.8vw, 1.1rem); margin-top: 1rem; }
+      .hero-ticker-item { font-size: 0.625rem; padding: 0 0.875rem; }
+
+      /* Gallery */
       .gallery-header { padding: 4rem 1.5rem 2.5rem; }
       .gallery-grid { grid-template-columns: 1fr; }
-      .gallery-sticky { position: relative; height: auto; }
-      .gallery-sticky figure img { height: 260px; }
+      .gallery-sticky { position: relative; height: auto; display: block; }
+      .gallery-sticky figure img { height: 220px; }
+      .gallery-scroll figure img { height: 18rem; }
+
       /* About */
-      .about-inner { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; gap: 3rem; }
-      .about-chart-wrap { max-width: 300px; }
-      .about-stats { grid-template-columns: 1fr; padding: 1rem 1.5rem 5rem; }
+      .about-inner {
+        grid-template-columns: 1fr;
+        padding: 5rem 1.5rem 3rem;
+        gap: 3rem;
+      }
+      .about-hl-1 { font-size: clamp(2.8rem, 11vw, 5rem); }
+      .about-hl-2 { font-size: clamp(2.4rem, 10vw, 4.5rem); }
+      .about-chart-wrap { max-width: 280px; }
+      .about-stats {
+        grid-template-columns: 1fr;
+        padding: 1rem 1.5rem 5rem;
+      }
+      .astat { padding: 2rem 1.75rem 1.75rem; }
+
       /* FAQ */
-      .faq-wrap { padding: 4rem 1.5rem 5rem; grid-template-columns: 1fr; gap: 2.5rem; }
+      .faq-wrap {
+        padding: 4rem 1.5rem 5rem;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
       .faq-header-row { position: relative; top: auto; }
       .faq-header-desc { max-width: none; }
       .faq-trigger { padding: 1rem 0; }
       .faq-answer-body { margin-left: 2rem; }
-      /* Misc */
-      .footer-bar { flex-direction: column; align-items: center; text-align: center; }
-      .hero-h1 { font-size: clamp(1.8rem, 7.5vw, 3rem); }
-      .hero-bar { height: 5vh; }
+
+      /* Cinematic footer */
+      .cine-footer__bg-text {
+        font-size: 38vw;
+        bottom: -2vh;
+      }
+      .cine-footer__heading {
+        font-size: clamp(2.4rem, 9vw, 4rem);
+        margin-bottom: 1.75rem;
+      }
+      .cine-footer__marquee-track {
+        transform: none;
+        top: 2rem;
+      }
+      .cine-footer__center {
+        margin-top: 4rem;
+        padding: 0 1.25rem;
+      }
+      .cine-footer__pills-primary { gap: 0.6rem; }
+      .cine-footer__pills-secondary { gap: 0.5rem; margin-top: 0.6rem; }
+      .cine-pill {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+      }
+      .cine-pill--sm {
+        padding: 0.5rem 1.1rem;
+        font-size: 0.6rem;
+      }
+      .cine-footer__bottom {
+        padding: 0 1.5rem 1.5rem;
+        gap: 0.75rem;
+      }
+      .cine-footer__copy { font-size: 0.6rem; }
+
+      /* Scroll reveal — faster on mobile */
+      .sr { transform: translateY(22px); }
+    }
+
+    /* Very small phones */
+    @media (max-width: 390px) {
+      .hero-h1 { font-size: clamp(1.75rem, 8vw, 2.5rem); }
+      .about-hl-1 { font-size: clamp(2.4rem, 12vw, 3.5rem); }
+      .about-hl-2 { font-size: clamp(2rem, 11vw, 3rem); }
+      .cine-footer__heading { font-size: clamp(2rem, 10vw, 3rem); }
     }
   </style>
 </head>
@@ -863,6 +942,12 @@
 
 <!-- ─── HERO ─────────────────────────────────────────────────── -->
 <section id="hero">
+  <!-- Mobile hero: portrait crop downloaded only on mobile, zero cost on desktop -->
+  <picture>
+    <source media="(orientation:landscape) and (max-width:860px)" srcset="hero-mobile-hq.jpg" />
+    <source media="(max-width:860px)" srcset="hero-mobile-portrait.jpg" />
+    <img class="hero-mobile-bg" alt="" fetchpriority="high" decoding="sync" aria-hidden="true" />
+  </picture>
   <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="hero-poster-2.jpg" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny">
     <source src="hero.mp4" type="video/mp4">
   </video>
@@ -1201,7 +1286,6 @@
 
   const isMobile = window.innerWidth <= 860;
 
-
   gsap.registerPlugin(ScrollTrigger);
   const nav = document.getElementById('nav');
   let lenis = null;
@@ -1347,18 +1431,29 @@
     const curtain = document.getElementById('cine-footer-curtain');
     if (!curtain) return;
 
-    gsap.fromTo('#cine-bg-text',
-      { y: '8vh', scale: 0.85, opacity: 0 },
-      { y: '0vh', scale: 1, opacity: 1, ease: 'power1.out',
-        scrollTrigger: { trigger: curtain, start: 'top 85%', end: 'bottom bottom', scrub: 1 } }
-    );
+    if (!isMobile) {
+      gsap.fromTo('#cine-bg-text',
+        { y: '8vh', scale: 0.85, opacity: 0 },
+        { y: '0vh', scale: 1, opacity: 1, ease: 'power1.out',
+          scrollTrigger: { trigger: curtain, start: 'top 85%', end: 'bottom bottom', scrub: 1 } }
+      );
 
-    gsap.fromTo(['#cine-heading', '#cine-links'],
-      { y: 55, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.15, ease: 'power3.out',
-        scrollTrigger: { trigger: curtain, start: 'top 45%', end: 'bottom bottom', scrub: 1 } }
-    );
+      gsap.fromTo(['#cine-heading', '#cine-links'],
+        { y: 55, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.15, ease: 'power3.out',
+          scrollTrigger: { trigger: curtain, start: 'top 45%', end: 'bottom bottom', scrub: 1 } }
+      );
+    } else {
+      /* On mobile just fade in once visible — no scrub */
+      gsap.fromTo(['#cine-bg-text', '#cine-heading', '#cine-links'],
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, stagger: 0.1, duration: 0.9, ease: 'power2.out',
+          scrollTrigger: { trigger: curtain, start: 'top 75%', toggleActions: 'play none none none' } }
+      );
+    }
 
+    /* Magnetic effect — desktop only */
+    if (!isMobile) {
     document.querySelectorAll('.magnetic-btn').forEach(el => {
       el.addEventListener('mousemove', function (e) {
         const r = el.getBoundingClientRect();
@@ -1372,6 +1467,7 @@
           ease: 'elastic.out(1,0.3)', duration: 1.1 });
       });
     });
+    }
 
     document.getElementById('cine-up').addEventListener('click', function () {
       if (lenis) {
