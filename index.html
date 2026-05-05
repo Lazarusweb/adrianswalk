@@ -13,8 +13,8 @@
   <noscript><link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
   <!-- Mobile hero — preload portrait crop for instant sharp first paint -->
-  <link rel="preload" as="image" href="hero-mobile-portrait.jpg" media="(max-width:860px) and (orientation:portrait)" fetchpriority="high" />
-  <link rel="preload" as="image" href="hero-mobile-hq.jpg" media="(max-width:860px) and (orientation:landscape)" fetchpriority="high" />
+  <link rel="preload" as="image" href="hero%20files/hero-mobile-portrait.jpg" media="(max-width:860px) and (orientation:portrait)" fetchpriority="high" />
+  <link rel="preload" as="image" href="hero%20files/hero-mobile-hq.jpg" media="(max-width:860px) and (orientation:landscape)" fetchpriority="high" />
 
   <style>
     /* ─── tokens ──────────────────────────────────────────────── */
@@ -963,12 +963,12 @@
 <section id="hero">
   <!-- Mobile hero: portrait crop downloaded only on mobile, zero cost on desktop -->
   <picture>
-    <source media="(orientation:landscape) and (max-width:860px)" srcset="hero-mobile-hq.jpg" />
-    <source media="(max-width:860px)" srcset="hero-mobile-portrait.jpg" />
+    <source media="(orientation:landscape) and (max-width:860px)" srcset="hero%20files/hero-mobile-hq.jpg" />
+    <source media="(max-width:860px)" srcset="hero%20files/hero-mobile-portrait.jpg" />
     <img class="hero-mobile-bg" alt="" fetchpriority="high" decoding="sync" aria-hidden="true" />
   </picture>
-  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="hero-poster-2.jpg" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny">
-    <source src="hero.mp4" type="video/mp4">
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="hero%20files/hero-poster-2.jpg" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny">
+    <source src="hero%20files/hero.mp4" type="video/mp4">
   </video>
   <script>
     (function(){
